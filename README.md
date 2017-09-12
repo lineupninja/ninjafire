@@ -283,14 +283,15 @@ This package is not yet published to npm/yarn. So you will need to install it di
 
 With Yarn: 
 
+  
 ```bash
-yarn add "git://github.com/lineupninja/ninjafire/git#master"
+yarn add "https://github.com/lineupninja/ninjafire.git"
 ```
 
 Or alternatively with npm:
 
 ```bash
-npm install --save-dev "git://github.com/lineupninja/ninjafire/git#master"
+npm install --save-dev "https://github.com/lineupninja/ninjafire.git"
 ```
 
 Because the package is not yet published to NPM it will compile itself when yarn/npm installs the module. This should happen transparently.
