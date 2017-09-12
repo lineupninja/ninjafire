@@ -1,0 +1,50 @@
+{
+  "name": "ninjafire",
+  "version": "0.0.1",
+  "description": "An ORM for Firebase. Inspired by Ember Data and compatible with emberfire",
+  "contributors": [
+    "Gordon Johnston <gord@lineup.ninja>"
+  ],
+  "repository": "https://github.com/lineupninja/ninjafire",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "dependencies": {
+    "debug": "^2.6.8",
+    "postinstall-build": "^5.0.1",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.3",
+    "@types/debug": "^0.0.30",
+    "@types/mocha": "^2.2.41",
+    "babel-eslint": "^7.2.3",
+    "chai": "^4.1.1",
+    "dotenv": "^4.0.0",
+    "eslint": "^4.3.0",
+    "eslint-plugin-class-property": "^1.0.6",
+    "firebase": "^4.2.0",
+    "firebase-admin": "^5.1.0",
+    "gulp": "^3.9.1",
+    "gulp-tslint": "^8.1.2",
+    "mocha": "^3.5.0",
+    "nyc": "^11.1.0",
+    "ts-node": "^3.3.0",
+    "tslint": "^5.5.0",
+    "tslint-microsoft-contrib": "^5.0.1",
+    "typescript": "^2.4.2"
+  },
+  "scripts": {
+    "env": "env",    
+    "test": "mocha -r ts-node/register test/**/*.ts",
+    "build": "tsc -p src",
+    "main": "dist/index.js",
+    "types": "dist/types/index.d.ts",
+    "prepublishOnly": "tsc -p src",
+    "postinstall": "postinstall-build dist"
+  }
+}

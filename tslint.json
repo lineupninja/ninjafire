@@ -1,0 +1,88 @@
+{
+    "extends": [
+        "tslint-microsoft-contrib/recommended_ruleset.js"
+    ],
+    "rulesDirectory": [
+        "node_modules/tslint-microsoft-contrib/"
+    ],
+    "rules": {
+        "new-parens": true,
+        "no-arg": true,
+        "no-bitwise": true,
+        "no-conditional-assignment": true,
+        "no-consecutive-blank-lines": false,
+        "no-console": [
+            "debug",
+            "info",
+            "log",
+            "time",
+            "timeEnd",
+            "trace"
+        ],
+        "semicolon": [
+            true,
+            "always"
+        ],
+        "quotemark": [
+            true,
+            "single",
+            "avoid-escape"
+        ],
+        "variable-name": [
+            true,
+            "ban-keywords",
+            "check-format",
+            "allow-leading-underscore"
+        ],
+        "arrow-parens": false,
+        "max-line-length": [
+            false
+        ],
+        "object-literal-sort-keys": [
+            false
+        ],
+        "interface-name": [
+            true,
+            "never-prefix"
+        ],
+        "max-classes-per-file": [
+            false
+        ],
+        "no-unused-variable": [
+            true
+        ],
+        "no-unused-expression": [
+            true
+        ],
+        "trailing-comma": [
+            true,
+            {
+                "singleline": "never",
+                "multiline": "always"
+            }
+        ],
+        "export-name": false, // Disabled as exports are PascalCased and file-names-are-whatever-this-case-is-called
+        "no-reserved-keywords": false, // We have model fields names type, public etc..
+        "no-require-imports": false, // Needed to import 'debug' module
+        "prefer-type-cast": false, // Prefer new as syntax over angle bracket
+        "no-angle-bracket-type-assertion": true,
+        "no-suspicious-comment": false, // TODO: Enable this ;-)
+        "max-func-body-length": false, 
+        "no-unsafe-any": false, // Disabled this until I can figure out what it means
+        "completed-docs": [
+            false
+        ], // TODO! 
+        "no-void-expression": [
+            "ignore-arrow-function-shorthand"
+        ],
+        "no-relative-imports": false, // Disabled for tests
+        "chai-vague-errors": false,
+        "typedef": [true, "call-signature", "arrow-call-signature", "parameter", "arrow-parameter", "property-declaration", "member-variable-declaration"],        
+        "function-name": false,
+        "cyclomatic-complexity": [
+            50
+        ],
+        "missing-jsdoc": false,
+        "newline-before-return": false // Don't like this... <deal-with-it type='cat'/>
+    }
+}
