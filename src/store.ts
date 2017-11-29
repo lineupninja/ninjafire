@@ -278,9 +278,14 @@ export class Store {
     public async _updatePaths(updates: { [path: string]: any }): Promise<void> {
         log('performing firebase updates');
         log(updates);
-        await this.database.ref('/').update(updates);
+        try {
+            await this.database.ref('/').update(updates);
+        } catch (error) {
+            console.error(`Failed to save updates: ${JSON.stringify(updates)} ${error} ${error.stack}`);
+            throw error;
+        }
     }
-
+    
     /**
      * Saves all records that have pending changes atomically
      */
