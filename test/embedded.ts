@@ -206,6 +206,65 @@ describe('Embedded', function (): void {
         store.unloadAll();
     });
 
+    it('should create a post with one embedded hasMany photo, retrieve it and append another and save it', async () => {
+        
+        await resetFirebase(basePath);
+        const store: Store = new Store(admin.database(), { basePath });
+
+        const post: Post = store.createRecord(Post, {
+            id: testData.post[1].id,
+            title: testData.post[1].title,
+        });
+
+        const photo1: Photo = store.createRecord(Photo, {
+            id: testData.photo[1].id,
+            caption: testData.photo[1].caption,
+        });
+
+        post.photos = [photo1];
+
+        await post.save();
+        store.unloadAll();
+
+        const newStore = new Store(admin.database(), { basePath });
+
+        const retrievedPost: Post = await newStore.findRecord(Post, testData.post[1].id);
+
+        expect(retrievedPost.title, 'retrieved post has correct title').to.equal(testData.post[1].title);
+        expect(retrievedPost.photos.length, 'retrieved post has one photo').to.equal(1);
+
+        // Check that embedded record has been loaded into the store
+        const peekedPhoto: Photo | null = newStore.peekRecord(Photo, testData.photo[1].id);
+        expect(peekedPhoto, 'peeked photo 1 should not be null').to.not.be.a('null');
+        if (peekedPhoto !== null) {
+            expect(peekedPhoto.caption, 'peeked photo 1 should have caption 1').to.equal(testData.photo[1].caption);
+        }
+
+        const photo2: Photo = newStore.createRecord(Photo, {
+            id: testData.photo[2].id,
+            caption: testData.photo[2].caption,
+        });
+
+        retrievedPost.photos.push(photo2);
+        expect(retrievedPost.photos.length, 'retrieved post has two photos before saving').to.equal(2);
+
+        await retrievedPost.save();
+
+        expect(retrievedPost.photos.length, 'retrieved post has two photos after saving').to.equal(2);
+
+        // Embedded photos might be retrieved in any order as firebase does not support array ordering
+
+        post.photos.map((photo: Photo) => {
+            if (photo.id === testData.photo[1].id) {
+                expect(photo.caption, 'photo 1 should have caption 1').to.equal(testData.photo[1].caption);
+            } else {
+                expect(photo.caption, 'photo 2 should have caption 2').to.equal(testData.photo[2].caption);
+            }
+        });
+
+        newStore.unloadAll();
+    });
+
     it('should create a post and embed a belongsTo hero image', async () => {
 
         /**

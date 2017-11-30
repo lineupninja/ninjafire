@@ -255,8 +255,8 @@ export abstract class Model {
             // Process embedded records. The 'localAttribute' may not change changed if the property change has only been made in the embedded record itself
 
             const allAttributes: object = {};
-            Object.assign(allAttributes, this._localAttributes, this._remoteAttributes);
-
+            Object.assign(allAttributes, this._remoteAttributes, this._localAttributes);
+            
             // Map through active keys in the schema
             Object.keys(allAttributes).filter((key: string) => this.schema[key] !== undefined).map((key: string) => {
 
