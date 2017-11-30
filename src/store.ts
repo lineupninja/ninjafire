@@ -298,7 +298,8 @@ export class Store {
         Object.keys(this._activeRecords).map((modelName: string) => {
             Object.keys(this._activeRecords[modelName]).map((id: string) => {
                 const record = this._activeRecords[modelName][id];
-                if (record.hasDirtyAttributes === true) {
+                // Save all records other than embedded ones, which will be saved when the containing record is saved
+                if (!record.embedded) {
                     record._willSave();
                     Object.assign(updates, record._pathsToSave());
                     recordsBeingSaved.push(record);
