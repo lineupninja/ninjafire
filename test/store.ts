@@ -203,6 +203,8 @@ describe('findRecord', function (): void {
         expect(blogName, 'blog has blog name').to.equal(testData.blog[1].name);
         expect(userName, 'user has user name').to.equal(testData.user[1].name);
 
+        store.unloadAll();
+
     });
 
     it('should save all dirty records with saveAll', async () => {
@@ -231,13 +233,14 @@ describe('findRecord', function (): void {
         expect(blogName, 'blog has blog name').to.equal(testData.blog[1].name);
         expect(userName, 'user has user name').to.equal(testData.user[1].name);
 
+        store.unloadAll();
+
     });
 
-    it('should save skip non dirty records saveAll', async () => {
+    it('should save multiple records atomically', async () => {
 
         /**
-         * This test exists mostly for code coverage and checks that records
-         * without dirty records are skipped when performing a saveAll
+         * Create two unrelated records and save them both using 'saveRecords'
          */
 
         const store: Store = new Store(admin.database(), { basePath });
@@ -247,11 +250,17 @@ describe('findRecord', function (): void {
             name: testData.blog[1].name,
         });
 
-        await store.saveAll();
-        await store.saveAll(); // Second saveAll should trigger alternate path in saveAll code
+        const user: User = store.createRecord(User, {
+            id: testData.blog[1].id, // Use same id as blog
+            name: testData.user[1].name,
+        });
+
+        await store.saveRecords([blog, user]);
 
         const blogName = await blog.rawFirebaseValue('name');
-        expect(blogName, 'blog has blog name').to.equal(testData.blog[1].name);
+        const userName = await user.rawFirebaseValue('name');
+
+        store.unloadAll();
 
     });
 

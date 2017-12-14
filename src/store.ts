@@ -285,14 +285,14 @@ export class Store {
             throw error;
         }
     }
-    
+
     /**
-     * Saves all records that have pending changes atomically
+     * Saves all records atomically
      */
 
     public async saveAll(): Promise<void> {
 
-        const recordsBeingSaved: Model[] = [];
+        const recordsToSave: Model[] = [];
         const updates = {};
 
         Object.keys(this._activeRecords).map((modelName: string) => {
@@ -300,31 +300,23 @@ export class Store {
                 const record = this._activeRecords[modelName][id];
                 // Save all records other than embedded ones, which will be saved when the containing record is saved
                 if (!record.embedded) {
-                    record._willSave();
-                    Object.assign(updates, record._pathsToSave());
-                    recordsBeingSaved.push(record);
+                    recordsToSave.push(record);
                 }
             });
         });
 
-        await this._updatePaths(updates);
-
-        await Promise.all(recordsBeingSaved.map(async (savedRecord: Model) => {
-            await savedRecord._didSave();
-        }));
-
+        await this.saveRecords(recordsToSave);
     }
 
     /**
-     * Saves the record. Intended by be called from Model, rather than directly
-     * Will also save records that are atomically linked
-     * @param record The record to save
+     * Saves a list of records atomically
+     * @param records An array of records to save
      */
 
-    public async _save(record: Model): Promise<void> {
+    public async saveRecords(records: Model[]): Promise<void> {
 
-        const recordsToSave: Model[] = [record];
-        const seenRecords: Model[] = [record];
+        const recordsToSave: Model[] = records.slice();
+        const seenRecords: Model[] = records.slice();
         const updates = {};
         while (recordsToSave.length > 0) {
 
@@ -347,6 +339,18 @@ export class Store {
         await Promise.all(seenRecords.map(async (savedRecord: Model) => {
             await savedRecord._didSave();
         }));
+
+    }
+
+    /**
+     * Saves the record. Intended by be called from Model, rather than directly
+     * Will also save records that are atomically linked
+     * @param record The record to save
+     */
+
+    public async _save(record: Model): Promise<void> {
+
+        await this.saveRecords([record]);
     }
 
     /**
