@@ -4,7 +4,7 @@ import { Serializer } from './serializer';
 export class JSONSerializer extends Serializer {
     public serialize(value: {}): string {
         if (typeof value !== 'object') {
-            throw Error(`serializing ${value} got ${typeof value} but expected string`);
+            throw Error(`serializing ${value} got ${typeof value} but expected object`);
         }
         return JSON.stringify(value);
     }
