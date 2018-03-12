@@ -14,6 +14,7 @@
     "dist"
   ],
   "dependencies": {
+    "@types/lodash": "4.14.104",
     "debug": "^2.6.8",
     "postinstall-build": "^5.0.1",
     "uuid": "^3.1.0"
@@ -39,7 +40,7 @@
     "typescript": "^2.4.2"
   },
   "scripts": {
-    "env": "env",    
+    "env": "env",
     "test": "mocha -r ts-node/register test/**/*.ts",
     "build": "tsc -p src",
     "main": "dist/index.js",
