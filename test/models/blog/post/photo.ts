@@ -5,7 +5,7 @@ import { User } from '../../../models';
 export class Photo extends Model {
 
     public static modelName: string = 'blog/post/photo';
-    public static pluralName: string = 'blog/post/photos';
+    public static modelPath: string = 'blog/post/photos';
     public static embedded: boolean = true;
 
     public schema: Schema = {

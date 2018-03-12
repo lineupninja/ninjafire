@@ -23,14 +23,14 @@ export type ModelOrPromise<T extends Model> = T | ModelPromise<T>;
 export abstract class Model {
 
     public static modelName: string;
-    public static pluralName: string;
+    public static modelPath: string;
     public static embedded: boolean = false; // The model is for embedding within another
 
     public get modelName(): string {
         return (this.constructor as typeof Model).modelName;
     }
-    public get pluralName(): string {
-        return (this.constructor as typeof Model).pluralName;
+    public get modelPath(): string {
+        return (this.constructor as typeof Model).modelPath;
     }
     public get embedded(): boolean {
         return (this.constructor as typeof Model).embedded;
@@ -98,7 +98,7 @@ export abstract class Model {
             }
             path += pathPrefix;
         }
-        path += `/${this.pluralName}/${this.id}`;
+        path += `/${this.modelPath}/${this.id}`;
         return path;
     }
 

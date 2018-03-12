@@ -28,7 +28,7 @@ It is intended to be used in node, and can be used in a Firebase Cloud Function,
 Models are defined by providing the following items
 
 * `modelName` A string that identifies the name of the model. It should be unique to the model
-* `pluralName` A string that defines the name of a collection of these records. It is used to define the path to store the data in firebase. In Ember Data this is automatically 'pluralized' from `modelName`. Currently you need to explicitly specify it.
+* `modelPath` A string that defines the name of a collection of these records. It is used to define the path to store the data in firebase. In Ember Data this is automatically 'pluralized' from `modelName`. Currently you need to explicitly specify it.
 * `schema` An object whose keys are the attributes of the model and whose values are the types of each attribute.
 * The types of the attributes. These are used so Typescript can type check the model. Attributes that return relationships (that are not embedded) should be `ModelOrPromise<...>` or `ModelOrPromise<...>[]`.
 
@@ -41,7 +41,7 @@ For example (you can find this model at `tests/models/blog.ts`)
     export class Blog extends Model {
 
         public static modelName: string = 'blog';
-        public static pluralName: string = 'blogs';
+        public static modelPath: string = 'blogs';
 
         public schema: Schema = {
 

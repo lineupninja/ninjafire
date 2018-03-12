@@ -5,7 +5,7 @@ import { Post, User, Vote } from '../../../models';
 export class Comment extends Model {
 
     public static modelName: string = 'comment';
-    public static pluralName: string = 'comments';
+    public static modelPath: string = 'comments';
     public static pathPrefixGroup: string = 'post';
 
     public schema: Schema = {

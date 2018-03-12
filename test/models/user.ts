@@ -5,7 +5,7 @@ import { Blog, Post } from '../models';
 export class User extends Model {
 
     public static modelName: string = 'user';
-    public static pluralName: string = 'users';
+    public static modelPath: string = 'users';
 
     public schema: Schema = {
 

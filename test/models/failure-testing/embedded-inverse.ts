@@ -5,7 +5,7 @@ import { Bad } from '../../models';
 export class EmbeddedInverse extends Model {
 
     public static modelName: string = 'bad';
-    public static pluralName: string = 'bads';
+    public static modelPath: string = 'bads';
     public static embedded: boolean = true;
 
     public schema: Schema = {
