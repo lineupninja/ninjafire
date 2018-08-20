@@ -220,7 +220,9 @@ export class Store {
                             log('received null data for deleted record, ignore it');
                             resolve();
                         } else {
-                            reject(`record not found for key ${ref.key}`);
+                            const notFoundError = new Error(`record not found for key ${ref.key}`);
+                            notFoundError.name = 'NinjaFireRecordNotFound';
+                            reject(notFoundError);
                         }
                     }
                     record.loadingPromise = null;

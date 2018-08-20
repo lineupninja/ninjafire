@@ -2,12 +2,9 @@
 'use strict';
 
 import { expect } from 'chai';
-import * as debug from 'debug';
-import * as dotenv from 'dotenv';
 import * as admin from 'firebase-admin';
-import { v4 } from 'uuid';
-import { Model, ModelOrPromise, Store } from '../src';
-import { Bad, Comment, EmbeddedInverse, InvalidInverse, MissingName, Photo, Post, User } from './models';
+import { Store } from '../src';
+import { Bad, Comment, EmbeddedInverse, InvalidInverse, MissingName, User } from './models';
 import { resetFirebase, testData } from './test-data';
 
 // tslint:disable:no-unused-expression
@@ -85,19 +82,21 @@ describe('Exceptions', function (): void {
     it('should throw an exception when finding a record that does not exist', async () => {
 
         /**
-         * If the record that findRecord is looking for does not exist an exception should be thrown
+         * If the record that findRecord is looking for does not exist an exception named 'NinjaFireRecordNotFound' should be thrown
          */
 
         await resetFirebase(basePath);
         const store: Store = new Store(admin.database(), { basePath });
 
         let errorWasThrown = false;
+
         try {
             await store.findRecord(User, testData.user[1].id);
         } catch (e) {
+            expect(e.name).to.equal('NinjaFireRecordNotFound');
             errorWasThrown = true;
-            expect(e).to.include('record not found for key');
         }
+
         expect(errorWasThrown, 'error was thrown').to.be.true;
 
         store.unloadAll();
@@ -276,4 +275,5 @@ describe('Exceptions', function (): void {
 
         store.unloadAll();
     });
+
 });

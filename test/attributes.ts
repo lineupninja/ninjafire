@@ -265,7 +265,7 @@ describe('Attribute Tests', function (): void {
         const store: Store = new Store(admin.database(), { basePath });
         const blog: Blog = await store.findRecord(Blog, testData.blog[1].id);
         // tslint:disable-next-line:no-any
-        expect(() => { blog.config = true as any as string; }).to.throw('expected string');
+        expect(() => { blog.config = true as any; }).to.throw('serializing true got boolean but expected object');
 
         store.unloadAll();
     });

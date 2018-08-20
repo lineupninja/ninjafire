@@ -10,6 +10,8 @@ import { Model, ModelOrPromise, Store } from '../src';
 import { Blog, User } from './models';
 import { resetFirebase, testData } from './test-data';
 
+// tslint:disable:no-unused-expression
+
 // tslint:disable:mocha-no-side-effect-code
 const basePath = process.env.BASE_PATH ? process.env.BASE_PATH as string : undefined;
 
@@ -263,5 +265,47 @@ describe('findRecord', function (): void {
         store.unloadAll();
 
     });
+
+    it('should be able to create a record after getting a NotFound result', async () => {
+
+        /**
+         * If the record that findRecord is looking for does not exist an exception named 'NinjaFireRecordNotFound' should be thrown
+         */
+
+        await resetFirebase(basePath);
+        const store: Store = new Store(admin.database(), { basePath });
+
+        let errorWasThrown = false;
+        let recordWasCreated = true;
+        try {
+            await store.findRecord(User, testData.user[1].id);
+        } catch (e) {
+            expect(e.name).to.equal('NinjaFireRecordNotFound');
+            errorWasThrown = true;
+
+            const user: User = store.createRecord(User, {
+                id: testData.user[1].id, // Use same id as blog
+                name: testData.user[1].name,
+            });
+
+            await user.save();
+
+            const userName = await user.rawFirebaseValue('name');
+
+            expect(userName, 'user has user name').to.equal(testData.user[1].name);
+            recordWasCreated = true;
+        }
+
+        expect(errorWasThrown, 'error was thrown').to.be.true;
+        expect(recordWasCreated, 'record was created').to.be.true;
+
+        const user1 = await store.findRecord(User, testData.user[1].id);
+        expect(user1.name, 'retrieved record has correct name').to.equal(testData.user[1].name);
+
+        store.unloadAll();
+
+    });
+
+
 
 });
