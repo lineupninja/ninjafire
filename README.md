@@ -1,5 +1,9 @@
 ninjafire
 
+## Archived
+
+Hi. This project has been archived, we have moved away from Firebase to Hasura and re no longer maintaining this project. Thanks for your interest.
+
 ## Overview
 
 ninjafire is an ORM for Firebase written in Typescript. It is heavily based on the API for Ember Data. It is compatible with data in Firebase created by the [emberfire](https://github.com/firebase/emberfire) project.
